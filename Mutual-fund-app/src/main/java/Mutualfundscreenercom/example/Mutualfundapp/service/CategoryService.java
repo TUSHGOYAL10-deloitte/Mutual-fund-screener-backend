@@ -23,11 +23,14 @@ public class CategoryService {
     public List<MutualFund> getMutualFunds(){
         return mutualFundRepository.findAll();
     }
-    public Category update(int category_id, ParserClass parserClass){
-//        Category category  = categoryRepository.getById(category_id);
-//        List<MutualFund> mf=category.getMutualFunds();
-//        mf.add(mutualFund);
-////        category.setMutualFunds(mf);
+    public MutualFund update(int category_id, MutualFund mutualFund){
+        Category category  = categoryRepository.getById(category_id);
+        List<MutualFund> mf=category.getMutualFunds();
+        mf.add(mutualFund);
+        category.setMutualFunds(mf);
+        categoryRepository.save(category);
+        return mutualFund;
+//        category.setMutualFunds(mf);
 //        List<MutualFund> currMutualFundList=category.getMutualFunds();
 //        for(MutualFund i:mf){
 //            currMutualFundList.add(i);
@@ -35,8 +38,8 @@ public class CategoryService {
 //        category.setMutualFunds(currMutualFundList);
 //
 //        return categoryRepository.save(category);
-        System.out.println(parserClass);
-        return categoryRepository.getById(1);
+//        System.out.println(parserClass);
+//        return categoryRepository.getById(1);
 
     }
 

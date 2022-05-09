@@ -3,7 +3,7 @@ package Mutualfundscreenercom.example.Mutualfundapp.controller;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Category;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.service.CategoryService;
-import Mutualfundscreenercom.example.Mutualfundapp.service.ParserClass;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +35,8 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/api/addMutualFund/{category_id}/category",method = RequestMethod.POST)
-    public Category updateMFs(@PathVariable("category_id") int category_id, @RequestBody ParserClass parserClass){
-        return categoryService.update(category_id,parserClass);
+    public MutualFund updateMFs(@PathVariable("category_id") int category_id, @RequestBody MutualFund mutualFund){
+        return categoryService.update(category_id,mutualFund);
     }
 //    @RequestMapping(value = "/api/getCategory",method = RequestMethod.GET)
 //    public Category getCategoryMF(@PathVariable("category_id") int category_id){

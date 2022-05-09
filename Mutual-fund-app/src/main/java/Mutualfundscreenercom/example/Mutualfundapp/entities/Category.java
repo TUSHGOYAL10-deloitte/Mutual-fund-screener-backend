@@ -24,10 +24,8 @@ public class Category implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int category_id;
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MutualFund> mutualFunds;
-
-
     private String details;
     private boolean active;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<MutualFund> mutualFunds=new ArrayList<>();
 }
