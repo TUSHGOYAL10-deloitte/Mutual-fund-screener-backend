@@ -36,8 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
-            "/sign-up",
-            "/log-in"
+            "/mutual-fund/register/",
+            "/mutual-fund/log-in/"
     };
 
     private static final String[] AUTH_ADMIN = {

@@ -26,4 +26,5 @@ public class Users {
             inverseJoinColumns = {
                     @JoinColumn(name = "ROLE_ID") })
     private Set<Roles> roles;
+    private Boolean is_active;
 }

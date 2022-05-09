@@ -2,10 +2,12 @@ package Mutualfundscreenercom.example.Mutualfundapp.service;
 
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Roles;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Users;
+import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UnSuccessfull;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UserExtraBody;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,21 +16,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public abstract class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     @Lazy
     private BCryptPasswordEncoder bcryptEncoder;
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,11 +53,17 @@ public abstract class UserService implements UserDetailsService {
         return list;
     }
 
-    public Users findOne(String username) {
-        return userRepository.findByUsername(username);
+    public ResponseEntity<?> findOne(String userEmail) {
+        Users user = userRepository.findByEmail(userEmail);
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        }
+        else {
+            return ResponseEntity.status(401).body(new UnSuccessfull("user email does not exists, try signing up!"));
+        }
     }
 
-    public Users save(UserExtraBody user) {
+    public ResponseEntity<?> saveUserService(UserExtraBody user) {
 
         Users nUser = user.getUserFromExtraBody();
         nUser.setPassword(bcryptEncoder.encode(user.getPassword()));
@@ -73,6 +78,18 @@ public abstract class UserService implements UserDetailsService {
         }
 
         nUser.setRoles(roleSet);
-        return userRepository.save(nUser);
+        return ResponseEntity.ok().body(userRepository.save(nUser));
+    }
+
+    public ResponseEntity<?> activateAccountService(UserExtraBody user) {
+        Users userFromDB = userRepository.findByEmail(user.getEmail());
+        if(Objects.equals(userFromDB.getPassword(), bcryptEncoder.encode(user.getPassword()))) {
+            userFromDB.setIs_active(true);
+            userRepository.save(userFromDB);
+            return ResponseEntity.ok().body("Account Activated!");
+        }
+        else {
+            return ResponseEntity.status(401).body(new UnSuccessfull("Bad credentials!"));
+        }
     }
 }
