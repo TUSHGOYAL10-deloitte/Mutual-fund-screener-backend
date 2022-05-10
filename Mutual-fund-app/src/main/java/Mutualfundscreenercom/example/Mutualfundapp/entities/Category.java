@@ -21,12 +21,19 @@ import java.util.Set;
 @Table(name = "category")
 public class Category implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer categoryId;
+    private String companyImg;
+    private  String name;
+    private  String day;
+    private  String dayGrowth;
+    private  String year;
+    private  String yearGrowth;
+    private  String years;
+    private  String yearsGrowth;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int category_id;
-    private String name;
-    private String details;
-    private boolean active;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<MutualFund> mutualFunds=new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MutualFund> mutualFunds;
+
 }

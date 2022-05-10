@@ -5,42 +5,48 @@ import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.service.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/category")
 public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
 
-
-    @RequestMapping(value = "/api/all-category",method = RequestMethod.GET)
-    public List<Category> getCategory(){
-        return categoryService.getAllCategory();
-    }
-    @RequestMapping(value = "/api/category/{category_id}",method = RequestMethod.GET)
-    public Category getCategoryByid(@PathVariable("category_id") int category_id){
-        return categoryService.getCategory(category_id);
-    }
-    @RequestMapping(value = "/api/createCat",method = RequestMethod.POST)
-    public Category createCategory(@RequestBody Category category){
-        return categoryService.addCategory(category);
+    @RequestMapping(value = "/all-category", method = RequestMethod.GET)
+    public List<Category> getCategory() {
+        return categoryService.getAllCategoryService();
     }
 
-    @RequestMapping(value = "/api/updateCat",method = RequestMethod.PUT)
-    public Category updateCat(@RequestBody Category category){
-        return categoryService.updateCategory(category);
+    @RequestMapping(value = "/{categoryId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCategoryByIdController(@PathVariable Integer categoryId) {
+        return categoryService.getCategoryByIdService(categoryId);
     }
 
-    @RequestMapping(value = "/api/addMutualFund/{category_id}/category",method = RequestMethod.POST)
-    public MutualFund updateMFs(@PathVariable("category_id") int category_id, @RequestBody MutualFund mutualFund){
-        return categoryService.update(category_id,mutualFund);
+    @RequestMapping(value = "/{categoryName}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCategoryByNameController(@PathVariable String categoryName) {
+        return categoryService.getCategoryByNameService(categoryName);
     }
-//    @RequestMapping(value = "/api/getCategory",method = RequestMethod.GET)
-//    public Category getCategoryMF(@PathVariable("category_id") int category_id){
-//        return categoryService.mutualFundCategory(category_id);
-//    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseEntity<?> createCategoryController(@RequestBody Category category) {
+        System.out.println(category);
+        return categoryService.addCategoryService(category);
+    }
+
+    @RequestMapping(value = "/updateCat", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateCategoryController(@PathVariable Integer categoryId, @RequestBody Category category) {
+        return categoryService.updateCategoryService(categoryId, category);
+    }
+
+    @RequestMapping(value = "/addMutualFund/{mutualFundId}/category/{categoryId}", method = RequestMethod.POST)
+    public ResponseEntity<?> addMutualFundToCategoryController(@PathVariable("mutualFundId") Integer mutualFundId,
+                                                               @PathVariable("categoryId") Integer categoryId) {
+        return categoryService.addMFundToCategoryService(mutualFundId, categoryId);
+    }
 
 }
