@@ -16,11 +16,12 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int category_id;
     private String name;
