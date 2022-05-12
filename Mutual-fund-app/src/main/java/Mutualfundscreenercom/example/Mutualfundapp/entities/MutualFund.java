@@ -21,16 +21,17 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class MutualFund{
 
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String Total_invested;
-    private String Current_valuation;
+    private String total_invested;
+    private String current_valuation;
     private String net_profit;
-    private String Absolute_profit;
-    private String Total_installments;
-    private String Internal_roi;
+    private String absolute_profit;
+    private String total_installments;
+    private String internal_roi;
     private String sip_start_date;
     private String sip_end_date;
+
+    private Boolean is_active=true;
 }

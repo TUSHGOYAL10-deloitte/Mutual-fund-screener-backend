@@ -35,5 +35,5 @@ public class Category implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MutualFund> mutualFunds;
-
+    private Boolean is_active=true;
 }

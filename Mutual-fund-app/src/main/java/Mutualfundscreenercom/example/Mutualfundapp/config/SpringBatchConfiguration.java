@@ -1,7 +1,6 @@
 package Mutualfundscreenercom.example.Mutualfundapp.config;
 
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -24,7 +23,7 @@ import org.springframework.core.io.FileSystemResource;
 public class SpringBatchConfiguration {
 
     @Bean
-    public Job job(@NotNull JobBuilderFactory jobBuilderFactory, @NotNull StepBuilderFactory stepBuilderFactory,
+    public Job job(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory,
                    ItemReader<MutualFund> itemReader, ItemWriter<MutualFund> itemWriter) {
 
         Step step = stepBuilderFactory.get("ETL-file-load")
@@ -42,9 +41,8 @@ public class SpringBatchConfiguration {
 
     @Bean
     public FlatFileItemReader<MutualFund> itemReader() {
-
         FlatFileItemReader<MutualFund> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new FileSystemResource("src/main/resources/sampleData.csv"));
+        flatFileItemReader.setResource(new FileSystemResource("/home/tushgoyal/Documents/Product month/Mutual-fund-screener-backend-dev/Mutual-fund-app/src/main/resources/sampleData.csv"));
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
         flatFileItemReader.setLineMapper(lineMapper());
@@ -58,8 +56,8 @@ public class SpringBatchConfiguration {
 
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames("name","Total_invested","Current_valuation","net_profit","Absolute_profit","Total_installments",
-                "Internal_roi","sip_start_date","sip_end_date");
+        lineTokenizer.setNames("name", "total_invested", "current_valuation", "net_profit", "absolute_profit", "total_installments",
+                "internal_roi", "sip_start_date", "sip_end_date");
 
         BeanWrapperFieldSetMapper<MutualFund> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(MutualFund.class);

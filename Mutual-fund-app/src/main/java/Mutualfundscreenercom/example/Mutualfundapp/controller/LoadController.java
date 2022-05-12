@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/load")
-public class LoadController{
+public class LoadController {
 
     @Autowired
     JobLauncher jobLauncher;

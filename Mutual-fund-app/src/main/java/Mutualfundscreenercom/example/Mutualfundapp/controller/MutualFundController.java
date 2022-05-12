@@ -24,14 +24,4 @@ public class MutualFundController {
     public ResponseEntity<?> getMutualFundByIdController(@PathVariable("id") Integer id) {
         return mutualFundService.getMutualFundService(id);
     }
-
-    @RequestMapping(value = "/createMF", method = RequestMethod.POST)
-    public ResponseEntity<?> createMutualFundController(@RequestBody MutualFund mutualFund) {
-        return mutualFundService.addMutualFundService(mutualFund);
-    }
-
-    @RequestMapping(value = "/updateMF", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateMutualFundController(@RequestBody MutualFund mutualFund) {
-        return mutualFundService.updateMutualFundService(mutualFund);
-    }
 }
