@@ -39,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/mutual-fund/log-in/",
             "/mutual-fund/all-mutual-funds/",
             "/category/all-category",
-            "/mutual-fund/*"
+            "/mutual-fund/*",
+            "/mutual-fund/user/*/add-mutualfund-to-watchlist/*/"
     };
 
     private static final String[] AUTH_ADMIN = {

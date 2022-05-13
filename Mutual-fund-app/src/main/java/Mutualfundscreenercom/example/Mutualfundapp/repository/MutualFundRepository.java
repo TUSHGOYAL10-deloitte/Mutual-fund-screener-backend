@@ -9,9 +9,9 @@ import java.util.Optional;
 
 //
 //@Repository
-public interface MutualFundRepository extends CrudRepository<MutualFund,Integer> {
+public interface MutualFundRepository extends CrudRepository<MutualFund,Long> {
     MutualFund getByName(String name);
-    MutualFund getById(Integer id);
+    MutualFund getById(Long id);
 
     Boolean existsByName(String name);
 }

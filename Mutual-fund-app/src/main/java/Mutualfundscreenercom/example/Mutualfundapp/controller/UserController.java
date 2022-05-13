@@ -7,6 +7,7 @@ import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import Mutualfundscreenercom.example.Mutualfundapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -64,4 +65,14 @@ public class UserController {
     public ResponseEntity<?> activateUserController(@RequestBody UserExtraBody user) {
         return userService.verifyEmailService(user);
     }
+
+    //add and delete mutual fund
+//    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/user/{userId}/add-mutualfund-to-watchlist/{mutualFundId}/",method = RequestMethod.POST)
+    public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
+        System.out.println(mutualFundId.intValue()+" "+userId);
+//        return ResponseEntity.ok().body("ok");
+        return  userService.addMutualFundToWatchList(userId,mutualFundId);
+    }
+
 }

@@ -21,7 +21,7 @@ public class MutualFundController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getMutualFundByIdController(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getMutualFundByIdController(@PathVariable("id") Long id) {
         return mutualFundService.getMutualFundService(id);
     }
 }

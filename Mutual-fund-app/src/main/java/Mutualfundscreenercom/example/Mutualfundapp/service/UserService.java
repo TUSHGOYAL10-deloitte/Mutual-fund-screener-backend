@@ -1,9 +1,11 @@
 package Mutualfundscreenercom.example.Mutualfundapp.service;
 
+import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Roles;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Users;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UnSuccessfull;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UserExtraBody;
+import Mutualfundscreenercom.example.Mutualfundapp.repository.MutualFundRepository;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -29,6 +31,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private MutualFundRepository mutualFundRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByUsername(username);
@@ -49,6 +54,26 @@ public class UserService implements UserDetailsService {
         return authorities;
     }
 
+    public   ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId ){
+        if(!userRepository.existsById(userId) || !mutualFundRepository.existsById(mutualFundId)){
+            return ResponseEntity.status(404).body("cannot add non existing mutual or user");
+        }
+        Users users=userRepository.getById(userId);
+        MutualFund mutualFund=mutualFundRepository.getById(mutualFundId);
+
+        List<MutualFund> mutualFunds = new ArrayList<>(users.getMutualFundWatchList());
+        mutualFunds.add(mutualFund);
+        users.getMutualFundWatchList().clear();
+        users.setMutualFundWatchList(mutualFunds);
+        userRepository.save(users);
+        return ResponseEntity.ok().body(userRepository.getById(userId));
+//        mutualFunds.add(mutualFund);
+//        User.getMutualFunds().clear();
+//        User.setMutualFunds(mutualFunds);
+//        UserRepository.save(user);
+//        return ResponseEntity.ok().body(UserRepository.getUserId(userId));
+
+    }
     private List<Users> addToListIfUserActive(List<Users> list) {
         List<Users> result = new ArrayList<>();
         for (Users user : list) {
@@ -103,7 +128,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public ResponseEntity<?> deleteAccountService(Integer userId) {
+    public ResponseEntity<?> deleteAccountService(Long userId) {
         Optional<Users> users = userRepository.findById(userId);
         if (users.isEmpty()) {
             return ResponseEntity.status(404).body("User does not exist!");

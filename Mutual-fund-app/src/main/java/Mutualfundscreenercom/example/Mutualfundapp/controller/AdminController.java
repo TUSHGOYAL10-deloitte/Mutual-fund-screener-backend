@@ -57,13 +57,13 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/delete-account/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteUserAccountController(@PathVariable Integer userId) {
+    public ResponseEntity<?> deleteUserAccountController(@PathVariable Long userId) {
         return userService.deleteAccountService(userId);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/delete-Mutual-Fund/{mutualFundId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteMutualFundController(@PathVariable Integer mutualFundId) {
+    public ResponseEntity<?> deleteMutualFundController(@PathVariable Long mutualFundId) {
         return mutualFundService.deleteMutualFundService(mutualFundId);
     }
 

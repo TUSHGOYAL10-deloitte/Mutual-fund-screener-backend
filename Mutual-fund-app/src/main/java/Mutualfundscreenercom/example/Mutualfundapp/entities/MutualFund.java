@@ -22,7 +22,7 @@ import java.util.List;
 public class MutualFund{
 
     @Id
-    private Integer id;
+    private Long id;
     private String name;
     private  String sub_category;
     private String plan;

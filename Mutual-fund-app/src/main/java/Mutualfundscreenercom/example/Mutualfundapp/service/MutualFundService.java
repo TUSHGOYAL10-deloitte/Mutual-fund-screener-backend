@@ -32,7 +32,7 @@ public class MutualFundService {
         return result;
     }
 
-    public ResponseEntity<?> getMutualFundService(Integer mutualFundId) {
+    public ResponseEntity<?> getMutualFundService(Long mutualFundId) {
         if (mutualFundId == null) {
             return ResponseEntity.status(404).body("provide an ID");
         }
@@ -75,7 +75,7 @@ public class MutualFundService {
         }
     }
 
-    public ResponseEntity<?> deleteMutualFundService(Integer mutualFundId) {
+    public ResponseEntity<?> deleteMutualFundService(Long mutualFundId) {
         if (!mutualFundRepository.existsById(mutualFundId)) {
             return ResponseEntity.status(404).body("Mutual fund does not exist!");
         }
