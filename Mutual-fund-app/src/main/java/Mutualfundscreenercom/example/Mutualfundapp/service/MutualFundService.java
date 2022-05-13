@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +47,12 @@ public class MutualFundService {
 
     }
 
-    public ResponseEntity<?> addMutualFundService(MutualFund mutualFund) {
-        System.out.println(mutualFund);
-        if (mutualFund != null) {
-            mutualFundRepository.save(mutualFund);
+    public ResponseEntity<?> addMutualFundService(MutualFund[] mutualFundArray) {
+        System.out.println(Arrays.toString(mutualFundArray));
+        if (mutualFundArray != null) {
+            for(MutualFund mutualFund : mutualFundArray) {
+                mutualFundRepository.save(mutualFund);
+            }
             return ResponseEntity.ok().body("Mutual Fund Added Successfully!");
         }
         return ResponseEntity.status(404).body("provide correct name");
@@ -73,7 +76,7 @@ public class MutualFundService {
     }
 
     public ResponseEntity<?> deleteMutualFundService(Integer mutualFundId) {
-        if (mutualFundRepository.existsById(mutualFundId)) {
+        if (!mutualFundRepository.existsById(mutualFundId)) {
             return ResponseEntity.status(404).body("Mutual fund does not exist!");
         }
         MutualFund mutualFund = mutualFundRepository.getById(mutualFundId);
@@ -82,6 +85,6 @@ public class MutualFundService {
         }
         mutualFund.setIs_active(false);
         mutualFundRepository.save(mutualFund);
-        return ResponseEntity.ok().body("Mutual fund" + mutualFund.getName() + "deleted!");
+        return ResponseEntity.ok().body("Mutual fund: " + mutualFund.getName() + " deleted!");
     }
 }

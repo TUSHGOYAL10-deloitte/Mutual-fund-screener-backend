@@ -1,6 +1,6 @@
 package Mutualfundscreenercom.example.Mutualfundapp.controller;
 
-import Mutualfundscreenercom.example.Mutualfundapp.entities.Category;
+//import Mutualfundscreenercom.example.Mutualfundapp.entities.Category;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.service.MutualFundService;
 import org.springframework.beans.factory.annotation.Autowired;

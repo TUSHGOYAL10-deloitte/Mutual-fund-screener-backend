@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class Roles {
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
