@@ -21,7 +21,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class MutualFund{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
     private String name;
     private  String sub_category;
@@ -30,10 +30,9 @@ public class MutualFund{
     private float cagr;
     private float expense_ratio;
     private String sebi_risk;
-    private Integer scheme_code;
     private Boolean is_active=true;
-//
-//
+
+
 //    private String total_invested;
 //    private String current_valuation;
 //    private String net_profit;

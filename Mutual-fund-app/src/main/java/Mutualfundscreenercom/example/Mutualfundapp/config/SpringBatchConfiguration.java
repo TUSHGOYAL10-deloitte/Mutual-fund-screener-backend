@@ -42,7 +42,7 @@ public class SpringBatchConfiguration {
     @Bean
     public FlatFileItemReader<MutualFund> itemReader() {
         FlatFileItemReader<MutualFund> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new FileSystemResource("/home/tushgoyal/Documents/Mutual-fund-screener-backend-dev (2)/Mutual-fund-screener-backend-dev/Mutual-fund-app/src/main/resources/file.csv"));
+        flatFileItemReader.setResource(new FileSystemResource("/home/tushgoyal/Documents/Mutual-fund-screener-backend-dev/Mutual-fund-app/src/main/resources/Book.csv"));
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
         flatFileItemReader.setLineMapper(lineMapper());
@@ -56,8 +56,8 @@ public class SpringBatchConfiguration {
 
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames("name", "sub_category", "plan", "aum", "cagr", "expense_ratio",
-                "sebi_risk","scheme_code");
+        lineTokenizer.setNames("id","name", "sub_category", "plan", "aum", "cagr", "expense_ratio",
+                "sebi_risk");
 
         BeanWrapperFieldSetMapper<MutualFund> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(MutualFund.class);

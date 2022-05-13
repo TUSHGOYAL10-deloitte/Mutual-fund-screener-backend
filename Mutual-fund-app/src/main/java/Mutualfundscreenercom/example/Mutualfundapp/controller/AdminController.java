@@ -16,7 +16,7 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
-
+//
 //    @Autowired
 //    private CategoryService categoryService;
 
@@ -35,7 +35,7 @@ public class AdminController {
     public ResponseEntity<?> updateMutualFundController(@RequestBody MutualFund mutualFund) {
         return mutualFundService.updateMutualFundService(mutualFund);
     }
-
+//
 //    @PreAuthorize("hasRole('ADMIN')")
 //    @RequestMapping(value = "/category/create", method = RequestMethod.POST)
 //    public ResponseEntity<?> addCategoryController(@RequestBody Category[] category) {
@@ -47,7 +47,7 @@ public class AdminController {
 //    public ResponseEntity<?> updateCategoryController(@PathVariable Integer categoryId, @RequestBody Category category) {
 //        return categoryService.updateCategoryService(categoryId, category);
 //    }
-
+//
 //    @PreAuthorize("hasRole('ADMIN')")
 //    @RequestMapping(value = "/addMutualFund/{mutualFundId}/category/{categoryId}", method = RequestMethod.POST)
 //    public ResponseEntity<?> addMutualFundToCategoryController(@PathVariable("mutualFundId") Integer mutualFundId,
@@ -66,7 +66,7 @@ public class AdminController {
     public ResponseEntity<?> deleteMutualFundController(@PathVariable Integer mutualFundId) {
         return mutualFundService.deleteMutualFundService(mutualFundId);
     }
-//
+
 //    @PreAuthorize("hasRole('ADMIN')")
 //    @RequestMapping(value = "/removeMutualFund/{mutualFundId}/category/{categoryId}", method = RequestMethod.DELETE)
 //    public ResponseEntity<?> removeMutualFundToCategoryController(@PathVariable("mutualFundId") Integer mutualFundId,

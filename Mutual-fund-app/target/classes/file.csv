@@ -1,4 +1,4 @@
-name,sub_category,plan,aum,cagr,expense_ratio,sebi_risk,scheme_code
+name,sub_category,plan,aum,cagr,expense_ratio,sebi_risk,id
 SBI Liquid Fund,Liquid Fund,Growth,58511.23,4.26,0.18,Moderate,119800
 SBI Equity Hybrid Fund,Aggressive Hybrid Fund,Growth,50932.81,14.25,0.84,Very High,119609
 HDFC Liquid Fund,Liquid Fund,Growth,46613.9,4.24,0.2,Moderately Low,100868
