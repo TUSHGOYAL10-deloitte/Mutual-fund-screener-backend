@@ -17,6 +17,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
 
     @JsonIgnore
@@ -31,8 +32,15 @@ public class Users {
                     @JoinColumn(name = "ROLE_ID") })
     private Set<Roles> roles;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<MutualFund> mutualFundWatchList;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name="USER_WATCHLIST",
+                    joinColumns = {
+                            @JoinColumn(name = "USER_ID")
+                    },
+                    inverseJoinColumns = {
+                            @JoinColumn(name = "MUTUAL_FUND_ID")
+                    })
+    private Set<MutualFund> mutualFundWatchList;
 
     private Boolean emailConfirmed=false;
     private Boolean is_active=true;

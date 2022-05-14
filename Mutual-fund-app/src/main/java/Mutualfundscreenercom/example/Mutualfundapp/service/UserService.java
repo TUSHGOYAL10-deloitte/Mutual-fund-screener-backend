@@ -10,6 +10,7 @@ import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,17 +62,13 @@ public class UserService implements UserDetailsService {
         Users users=userRepository.getById(userId);
         MutualFund mutualFund=mutualFundRepository.getById(mutualFundId);
 
-        List<MutualFund> mutualFunds = new ArrayList<>(users.getMutualFundWatchList());
+        Set<MutualFund> mutualFunds = new HashSet<>(users.getMutualFundWatchList());
         mutualFunds.add(mutualFund);
         users.getMutualFundWatchList().clear();
         users.setMutualFundWatchList(mutualFunds);
         userRepository.save(users);
         return ResponseEntity.ok().body(userRepository.getById(userId));
-//        mutualFunds.add(mutualFund);
-//        User.getMutualFunds().clear();
-//        User.setMutualFunds(mutualFunds);
-//        UserRepository.save(user);
-//        return ResponseEntity.ok().body(UserRepository.getUserId(userId));
+
 
     }
     private List<Users> addToListIfUserActive(List<Users> list) {
@@ -140,19 +137,16 @@ public class UserService implements UserDetailsService {
     }
 
 
+
     public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId,Long userId){
         Users users=userRepository.getById(userId);
         MutualFund mutualFund=mutualFundRepository.getById(mutualFundId);
         if (!userRepository.existsById(userId) || !mutualFundRepository.existsById(mutualFundId)) {
             return ResponseEntity.status(404).body("cannot add non existing mutual fund or user!");
         }
-        List<MutualFund> mutualFunds=new ArrayList<>();
-        for(MutualFund mutualFundIt:users.getMutualFundWatchList()){
-            if(mutualFundIt==mutualFund){
-                continue;
-            }
-            mutualFunds.add(mutualFundIt);
-        }
+        Set<MutualFund> mutualFunds=new HashSet<>(users.getMutualFundWatchList());
+        users.getMutualFundWatchList().clear();
+        mutualFunds.remove(mutualFund);
         users.setMutualFundWatchList(mutualFunds);
         userRepository.save(users);
         return ResponseEntity.ok().body(userRepository.getById(userId));

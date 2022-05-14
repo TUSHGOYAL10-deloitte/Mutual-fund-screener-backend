@@ -49,7 +49,8 @@ public class UserController {
         Users users = userRepository.findByUsername(loginUser.getUsername());
         ReturnUserDetails returnUserDetails = new ReturnUserDetails(users.getUsername(),
                                                                     users.getEmail(),
-                                                                    users.getIs_active());
+                                                                    users.getIs_active(),
+                                                                    users.getId());
         loginResponse.setReturnUserDetails(returnUserDetails);
         System.out.println(returnUserDetails);
         return ResponseEntity.ok(loginResponse);
@@ -67,7 +68,7 @@ public class UserController {
     }
 
     //add and delete mutual fund
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/user/{userId}/add-mutualfund-to-watchlist/{mutualFundId}/",method = RequestMethod.POST)
     public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
         System.out.println(mutualFundId.intValue()+" "+userId);
@@ -75,6 +76,7 @@ public class UserController {
         return  userService.addMutualFundToWatchList(userId,mutualFundId);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/remove-mutual-fund/{userId}/fromuser/{mutualFundId}",method = RequestMethod.DELETE)
     public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
         return userService.removeMutualFunFromUser(mutualFundId,userId);

@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "mutual_funds")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class MutualFund{
 
