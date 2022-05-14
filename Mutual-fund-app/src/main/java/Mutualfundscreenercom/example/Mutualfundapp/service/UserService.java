@@ -138,4 +138,23 @@ public class UserService implements UserDetailsService {
         userRepository.save(fetched);
         return ResponseEntity.ok().body("Deleted the user!");
     }
+
+
+    public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId,Long userId){
+        Users users=userRepository.getById(userId);
+        MutualFund mutualFund=mutualFundRepository.getById(mutualFundId);
+        if (!userRepository.existsById(userId) || !mutualFundRepository.existsById(mutualFundId)) {
+            return ResponseEntity.status(404).body("cannot add non existing mutual fund or user!");
+        }
+        List<MutualFund> mutualFunds=new ArrayList<>();
+        for(MutualFund mutualFundIt:users.getMutualFundWatchList()){
+            if(mutualFundIt==mutualFund){
+                continue;
+            }
+            mutualFunds.add(mutualFundIt);
+        }
+        users.setMutualFundWatchList(mutualFunds);
+        userRepository.save(users);
+        return ResponseEntity.ok().body(userRepository.getById(userId));
+    }
 }

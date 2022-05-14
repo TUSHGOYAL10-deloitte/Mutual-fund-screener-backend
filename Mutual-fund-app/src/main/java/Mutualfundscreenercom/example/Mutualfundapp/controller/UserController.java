@@ -75,4 +75,9 @@ public class UserController {
         return  userService.addMutualFundToWatchList(userId,mutualFundId);
     }
 
+    @RequestMapping(value = "/remove-mutual-fund/{userId}/fromuser/{mutualFundId}",method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
+        return userService.removeMutualFunFromUser(mutualFundId,userId);
+    }
+
 }

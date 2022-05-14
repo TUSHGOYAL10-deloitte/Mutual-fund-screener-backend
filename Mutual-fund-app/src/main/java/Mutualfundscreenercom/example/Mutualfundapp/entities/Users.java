@@ -31,7 +31,7 @@ public class Users {
                     @JoinColumn(name = "ROLE_ID") })
     private Set<Roles> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<MutualFund> mutualFundWatchList;
 
     private Boolean emailConfirmed=false;
