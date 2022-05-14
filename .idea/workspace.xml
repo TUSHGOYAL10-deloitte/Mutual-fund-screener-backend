@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="011c465b-f469-43ea-9c86-dcb9fc953019" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/MutualFundAppApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Mutual-fund-app/src/test/java/Mutualfundscreenercom/example/Mutualfundapp/MutualFundAppApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../python_folder/get_mutual_fund.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../python_folder/get_mutual_fund.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../python_folder/response.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../python_folder/response.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/MutualFundAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/MutualFundAppApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/config/SpringBatchConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/config/SpringBatchConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/controller/CategoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/entities/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/entities/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/entities/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/entities/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/entities/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/repository/CategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/service/CategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/service/ParserClass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/java/Mutualfundscreenercom/example/Mutualfundapp/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/config/SpringBatchConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/config/SpringBatchConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/config/WebSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/controller/CategoryController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/entities/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/entities/Roles.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/entities/Roles.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/entities/Users.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/entities/Users.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/repository/CategoryRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/service/CategoryService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/Mutualfundscreenercom/example/Mutualfundapp/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Mutual-fund-screener-backend/Mutual-fund-app/target/classes/file.csv" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Mutual-fund-screener-backend" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="296kp67KyCLJ8D5yb4HUQIEHcC3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/vital9/Desktop/HU/HU_Product/tushar/v2&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="MutualFundAppApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Mutualfundscreenercom.example.Mutualfundapp.MutualFundAppApplication" />
+      <module name="Mutual-fund-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Mutualfundscreenercom.example.Mutualfundapp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MutualFundAppApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="011c465b-f469-43ea-9c86-dcb9fc953019" name="Changes" comment="" />
+      <created>1652441102863</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1652441102863</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
