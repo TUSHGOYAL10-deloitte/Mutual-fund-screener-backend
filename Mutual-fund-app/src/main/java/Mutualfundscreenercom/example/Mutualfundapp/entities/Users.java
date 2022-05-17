@@ -23,6 +23,7 @@ public class Users {
     @JsonIgnore
     private String password;
     private String email;
+    private String resetPasswordToken;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
             joinColumns = {
@@ -41,6 +42,7 @@ public class Users {
                             @JoinColumn(name = "MUTUAL_FUND_ID")
                     })
     private Set<MutualFund> mutualFundWatchList;
+
 
     private Boolean emailConfirmed=false;
     private Boolean is_active=true;

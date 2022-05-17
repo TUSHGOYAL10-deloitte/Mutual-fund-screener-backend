@@ -82,4 +82,6 @@ public class UserController {
         return userService.removeMutualFunFromUser(mutualFundId,userId);
     }
 
+
+
 }

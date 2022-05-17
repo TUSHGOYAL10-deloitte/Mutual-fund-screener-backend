@@ -10,7 +10,6 @@ import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -151,4 +150,33 @@ public class UserService implements UserDetailsService {
         userRepository.save(users);
         return ResponseEntity.ok().body(userRepository.getById(userId));
     }
+
+    //forgot & reset password
+    public void updateResetPassword(String token, String emailId){
+        Users users=userRepository.findByEmail(emailId);
+        if(users!=null){
+            users.setResetPasswordToken(token);
+//            return ResponseEntity.ok().body(userRepository.save(users));
+            userRepository.save(users);
+
+        }
+        else{
+            ResponseEntity.status(404).body("couldn't find any customer with this email id:"+ emailId);
+        }
+        ResponseEntity.status(200).body(" reset token password has been created successfully");
+    }
+
+    public Users getUserDetails(String resetPasswordToken){
+        return userRepository.findByResetPasswordToken(resetPasswordToken);
+    }
+    public ResponseEntity<?> updatePasswordForUser(Users users,String newPassword){
+        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+        String encodedPassword=passwordEncoder.encode(newPassword);
+
+        users.setPassword(encodedPassword);
+        users.setResetPasswordToken(null);
+        userRepository.save(users);
+        return ResponseEntity.ok().body("successfully updated password");
+    }
+
 }
