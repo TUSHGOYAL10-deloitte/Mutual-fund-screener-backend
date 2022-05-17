@@ -15,6 +15,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/mutual-fund")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -32,6 +34,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ReturnUserDetails returnUserDetails;
+
     @RequestMapping(value = "/log-in", method = RequestMethod.POST)
     public ResponseEntity<?> generateTokenController(@RequestBody LoginUser loginUser) throws AuthenticationException {
         System.out.println(loginUser);
@@ -47,10 +52,13 @@ public class UserController {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setJwtToken(token);
         Users users = userRepository.findByUsername(loginUser.getUsername());
-        ReturnUserDetails returnUserDetails = new ReturnUserDetails(users.getUsername(),
-                                                                    users.getEmail(),
-                                                                    users.getIs_active(),
-                                                                    users.getId());
+
+        returnUserDetails.setId(users.getId());
+        returnUserDetails.setUserName(users.getUsername());
+        returnUserDetails.setEmail(users.getEmail());
+        returnUserDetails.setWishList(List.copyOf(users.getMutualFundWatchList()));
+        returnUserDetails.setIsActive(users.getIs_active());
+
         loginResponse.setReturnUserDetails(returnUserDetails);
         System.out.println(returnUserDetails);
         return ResponseEntity.ok(loginResponse);
@@ -73,13 +81,13 @@ public class UserController {
     public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
         System.out.println(mutualFundId.intValue()+" "+userId);
 //        return ResponseEntity.ok().body("ok");
-        return  userService.addMutualFundToWatchList(userId,mutualFundId);
+        return  userService.addMutualFundToWatchList(userId,mutualFundId,returnUserDetails);
     }
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/remove-mutual-fund/{userId}/fromuser/{mutualFundId}",method = RequestMethod.DELETE)
     public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
-        return userService.removeMutualFunFromUser(mutualFundId,userId);
+        return userService.removeMutualFunFromUser(mutualFundId,userId,returnUserDetails);
     }
 
 

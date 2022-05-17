@@ -1,11 +1,15 @@
 package Mutualfundscreenercom.example.Mutualfundapp.extrabody;
 
+import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
-@Data @AllArgsConstructor @NoArgsConstructor @ToString
+import java.util.List;
+
+@Data @AllArgsConstructor @NoArgsConstructor @ToString @Component
 public class ReturnUserDetails {
 
 
@@ -13,4 +17,5 @@ public class ReturnUserDetails {
     private String email;
     private Boolean isActive;
     private Long Id;
+    private List<MutualFund> wishList;
 }
