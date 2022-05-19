@@ -12,9 +12,9 @@ import javax.persistence.*;
 public class Roles {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column
+    @Column(unique = true)
     private String name;
     private Boolean is_active=true;
 }

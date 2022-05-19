@@ -64,32 +64,33 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUserController(@RequestBody UserExtraBody user){
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUserController(@RequestBody UserExtraBody user) {
         return userService.saveUserService(user);
     }
 
 
-    @RequestMapping(value="/activate-account/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/activate-account/", method = RequestMethod.PUT)
     public ResponseEntity<?> activateUserController(@RequestBody UserExtraBody user) {
         return userService.verifyEmailService(user);
     }
 
-    //add and delete mutual fund
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/user/{userId}/add-mutualfund-to-watchlist/{mutualFundId}/",method = RequestMethod.POST)
-    public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
-        System.out.println(mutualFundId.intValue()+" "+userId);
-//        return ResponseEntity.ok().body("ok");
-        return  userService.addMutualFundToWatchList(userId,mutualFundId,returnUserDetails);
+    @RequestMapping(value = "/user/{userId}/add-mutualFund-to-watchlist/{mutualFundId}", method = RequestMethod.POST)
+    public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId) {
+        System.out.println(mutualFundId.intValue() + " " + userId);
+        return userService.addMutualFundToWatchList(userId, mutualFundId, returnUserDetails);
     }
 
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/remove-mutual-fund/{userId}/fromuser/{mutualFundId}",method = RequestMethod.DELETE)
-    public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId,@PathVariable("userId") Long userId){
-        return userService.removeMutualFunFromUser(mutualFundId,userId,returnUserDetails);
+    @RequestMapping(value = "/remove-mutual-fund/{userId}/from-user/{mutualFundId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId) {
+        return userService.removeMutualFunFromUser(mutualFundId, userId, returnUserDetails);
     }
 
-
+//    @RequestMapping(value = "/password-reset/{userId}", method = RequestMethod.PUT)
+//    public ResponseEntity<?> resetPasswordController(@PathVariable Long userId, @RequestBody PasswordReset passwordReset) {
+//        return userService.resetPasswordService(userId, passwordReset);
+//    }
 
 }

@@ -25,21 +25,9 @@ public class MutualFund{
     private String name;
     private  String sub_category;
     private String plan;
-    private float aum;
-    private float cagr;
-    private float expense_ratio;
+    private Float aum;
+    private Float cagr;
+    private Float expense_ratio;
     private String sebi_risk;
     private Boolean is_active=true;
-
-
-//    private String total_invested;
-//    private String current_valuation;
-//    private String net_profit;
-//    private String absolute_profit;
-//    private String total_installments;
-//    private String internal_roi;
-//    private String sip_start_date;
-//    private String sip_end_date;
-
-
 }

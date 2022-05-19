@@ -8,7 +8,6 @@ import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UnSuccessfull;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UserExtraBody;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.MutualFundRepository;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
@@ -56,25 +55,6 @@ public class UserService implements UserDetailsService {
         return authorities;
     }
 
-    public   ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId, ReturnUserDetails returnUserDetails){
-        if(!Objects.equals(returnUserDetails.getId(), userId)) {
-            return ResponseEntity.status(401).body("you cannot add other users watchlist!");
-        }
-        if(!userRepository.existsById(userId) || !mutualFundRepository.existsById(mutualFundId)){
-            return ResponseEntity.status(404).body("cannot add non existing mutual or user");
-        }
-        Users users=userRepository.getById(userId);
-        MutualFund mutualFund=mutualFundRepository.getById(mutualFundId);
-
-        Set<MutualFund> mutualFunds = new HashSet<>(users.getMutualFundWatchList());
-        mutualFunds.add(mutualFund);
-        users.getMutualFundWatchList().clear();
-        users.setMutualFundWatchList(mutualFunds);
-        userRepository.save(users);
-        return ResponseEntity.ok().body(userRepository.getById(userId));
-
-
-    }
     private List<Users> addToListIfUserActive(List<Users> list) {
         List<Users> result = new ArrayList<>();
         for (Users user : list) {
@@ -98,20 +78,21 @@ public class UserService implements UserDetailsService {
         }
         return ResponseEntity.ok().body(user);
     }
+
     public ResponseEntity<?> saveUserService(UserExtraBody user) {
-        if(user.getUsername() == null || user.getUsername().length() <= 0) {
+        if (user.getUsername() == null || user.getUsername().length() <= 0) {
             return ResponseEntity.status(401).body("username is empty!");
         }
 
-        if(user.getEmail() == null || user.getEmail().length() <= 0) {
+        if (user.getEmail() == null || user.getEmail().length() <= 0) {
             return ResponseEntity.status(401).body("Email is empty!");
         }
 
-        if(user.getPassword() == null || user.getPassword().length() <= 0) {
+        if (user.getPassword() == null || user.getPassword().length() <= 0) {
             return ResponseEntity.status(401).body("password is empty!");
         }
 
-        if(userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(401).body("User already exists try logging in!");
         }
         Users nUser = user.getUserFromExtraBody();
@@ -120,8 +101,6 @@ public class UserService implements UserDetailsService {
         Set<Roles> roleSet = new HashSet<>();
         roleSet.add(role);
         nUser.setRoles(roleSet);
-        String token = RandomString.make(128);
-        nUser.setRefreshToken(token);
         return ResponseEntity.ok().body(userRepository.save(nUser));
     }
 
@@ -150,8 +129,28 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body("Deleted the user!");
     }
 
+    public ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId, ReturnUserDetails returnUserDetails) {
+        if (!Objects.equals(returnUserDetails.getId(), userId)) {
+            return ResponseEntity.status(401).body("you cannot add other users watchlist!");
+        }
+
+        if (!userRepository.existsById(userId) || !mutualFundRepository.existsById(mutualFundId)) {
+            return ResponseEntity.status(404).body("cannot add non existing mutual or user");
+        }
+
+        Users users = userRepository.getById(userId);
+        MutualFund mutualFund = mutualFundRepository.getById(mutualFundId);
+
+        Set<MutualFund> mutualFunds = new HashSet<>(users.getMutualFundWatchList());
+        mutualFunds.add(mutualFund);
+        users.getMutualFundWatchList().clear();
+        users.setMutualFundWatchList(mutualFunds);
+        userRepository.save(users);
+        return ResponseEntity.ok().body(userRepository.getById(userId));
+    }
+
     public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId, Long userId, ReturnUserDetails returnUserDetails) {
-        if(!Objects.equals(returnUserDetails.getId(), userId)) {
+        if (!Objects.equals(returnUserDetails.getId(), userId)) {
             return ResponseEntity.status(401).body("you cannot remove other users watchlist!");
         }
 
@@ -169,32 +168,23 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body(userRepository.getById(userId));
     }
 
-//    //forgot & reset password
-//    public void updateResetPassword(String token, String emailId){
-//        Users users=userRepository.findByEmail(emailId);
-//        if(users!=null){
-//            users.setResetPasswordToken(token);
-////            return ResponseEntity.ok().body(userRepository.save(users));
-//            userRepository.save(users);
+//    public ResponseEntity<?> resetPasswordService(Long userId, PasswordReset passwordReset) {
 //
+//        if(!userRepository.existsById(userId)) {
+//            return ResponseEntity.status(404).body("User does not exist");
 //        }
-//        else{
-//            ResponseEntity.status(404).body("couldn't find any customer with this email id:"+ emailId);
+//        Users users = userRepository.getById(userId);
+//        if(!users.getIs_active()) {
+//            return ResponseEntity.status(404).body("User does not exist");
 //        }
-//        ResponseEntity.status(200).body(" reset token password has been created successfully");
-//    }
-//
-//    public Users getUserDetails(String resetPasswordToken){
-//        return userRepository.findByResetPasswordToken(resetPasswordToken);
-//    }
-//    public ResponseEntity<?> updatePasswordForUser(Users users,String newPassword){
-//        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-//        String encodedPassword=passwordEncoder.encode(newPassword);
-//
-//        users.setPassword(encodedPassword);
-//        users.setResetPasswordToken(null);
+//        if(!Objects.equals(users.getUsername(), passwordReset.getUserName())) {
+//            return ResponseEntity.status(401).body("username does not match. provide correct username to reset password");
+//        }
+//        if(!Objects.equals(users.getEmail(), passwordReset.getEmail())) {
+//            return ResponseEntity.status(401).body("email does not match. provide correct username to reset password");
+//        }
+//        users.setPassword(bcryptEncoder.encode(passwordReset.getPassword()));
 //        userRepository.save(users);
-//        return ResponseEntity.ok().body("successfully updated password");
+//        return ResponseEntity.ok().body(userRepository.getById(userId));
 //    }
-
 }

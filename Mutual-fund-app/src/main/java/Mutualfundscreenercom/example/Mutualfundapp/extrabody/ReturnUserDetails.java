@@ -9,13 +9,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Data @AllArgsConstructor @NoArgsConstructor @ToString @Component
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Component
 public class ReturnUserDetails {
 
-
+    private Long Id;
     private String userName;
     private String email;
     private Boolean isActive;
-    private Long Id;
     private List<MutualFund> wishList;
 }

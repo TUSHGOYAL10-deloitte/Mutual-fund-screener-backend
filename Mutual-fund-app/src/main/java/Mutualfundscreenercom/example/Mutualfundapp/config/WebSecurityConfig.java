@@ -23,9 +23,32 @@ import javax.annotation.Resource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITELIST = {
+            "/mutual-fund/register/",
+            "/mutual-fund/log-in/",
+            "/mutual-fund/all-mutual-funds/",
+            "/category/all-category",
+            "/mutual-fund/*",
+            "/mutual-fund/user/*/add-mutualFund-to-watchlist/*",
+            "/mutual-fund/remove-mutual-fund/*/from-user/*",
+
+            // allow swagger
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+    private static final String[] AUTH_ADMIN = {
+            "/admin/**",
+            "/load"
+    };
     @Resource(name = "userService")
     private UserDetailsService userDetailsService;
-
     @Autowired
     private UnAuthorizedEntryPoint unauthorizedEntryPoint;
 
@@ -33,22 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
-
-    private static final String[] AUTH_WHITELIST = {
-            "/mutual-fund/register/",
-            "/mutual-fund/log-in/",
-            "/mutual-fund/all-mutual-funds/",
-            "/category/all-category",
-            "/mutual-fund/*",
-            "/mutual-fund/user/*/add-mutualfund-to-watchlist/*/",
-            "/mutual-fund/remove-mutual-fund/*/fromuser/*",
-            "/*"
-    };
-
-    private static final String[] AUTH_ADMIN = {
-            "/admin/**",
-            "/load"
-    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -65,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 

@@ -22,8 +22,11 @@ public class Users {
 
     @JsonIgnore
     private String password;
+
+    @Column(unique = true)
     private String email;
-//    private String resetPasswordToken;
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLES",
             joinColumns = {
@@ -33,20 +36,18 @@ public class Users {
                     @JoinColumn(name = "ROLE_ID") })
     private Set<Roles> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name="USER_WATCHLIST",
-                    joinColumns = {
-                            @JoinColumn(name = "USER_ID")
-                    },
-                    inverseJoinColumns = {
-                            @JoinColumn(name = "MUTUAL_FUND_ID")
-                    })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_WATCHLIST",
+            joinColumns = {
+                    @JoinColumn(name = "USER_ID")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "MUTUAL_FUND_ID") })
     private Set<MutualFund> mutualFundWatchList;
 
+    @JsonIgnore
+    private Boolean emailConfirmed=false;
 
     @JsonIgnore
-    @Column(updatable = false)
-    private String refreshToken;
-    private Boolean emailConfirmed=false;
     private Boolean is_active=true;
 }

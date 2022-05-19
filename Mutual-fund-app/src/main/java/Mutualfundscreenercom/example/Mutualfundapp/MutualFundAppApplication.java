@@ -9,5 +9,4 @@ public class MutualFundAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MutualFundAppApplication.class, args);
 	}
-
 }
