@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mutual-fund")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "https://mutual-fund-screener-frontend-urtjok3rza-wl.a.run.app/", maxAge = 36000)
 public class UserController {
 
     @Autowired
@@ -50,7 +50,7 @@ public class UserController {
         final String token = jwtTokenProvider.generateToken(authentication);
         System.out.println(token);
         LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setJwtToken(token);
+//        loginResponse.setJwtToken(token);
         Users users = userRepository.findByUsername(loginUser.getUsername());
 
         returnUserDetails.setId(users.getId());
@@ -58,6 +58,8 @@ public class UserController {
         returnUserDetails.setEmail(users.getEmail());
         returnUserDetails.setWishList(List.copyOf(users.getMutualFundWatchList()));
         returnUserDetails.setIsActive(users.getIs_active());
+        returnUserDetails.setToken(token);
+        returnUserDetails.setRoles(List.copyOf(users.getRoles()));
 
         loginResponse.setReturnUserDetails(returnUserDetails);
         System.out.println(returnUserDetails);

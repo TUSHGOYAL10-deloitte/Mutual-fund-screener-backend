@@ -3,6 +3,7 @@ package Mutualfundscreenercom.example.Mutualfundapp.service;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Roles;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Users;
+import Mutualfundscreenercom.example.Mutualfundapp.extrabody.ErrorResponse;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.ReturnUserDetails;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UnSuccessfull;
 import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UserExtraBody;
@@ -35,6 +36,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private MutualFundRepository mutualFundRepository;
 
+    @Autowired
+    private ErrorResponse errorResponse;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByUsername(username);
@@ -65,6 +69,7 @@ public class UserService implements UserDetailsService {
         return result;
     }
 
+    //get all the users altogether on admin dashboard
     public List<Users> findAll() {
         List<Users> list = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(list::add);
@@ -95,6 +100,11 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(401).body("User already exists try logging in!");
         }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(401).body("User already exists try logging in!");
+        }
+
         Users nUser = user.getUserFromExtraBody();
         nUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         Roles role = roleService.findByName("USER");
@@ -130,6 +140,11 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId, ReturnUserDetails returnUserDetails) {
+//        if(!Objects.equals(("Bearer " + returnUserDetails.getToken()), token)) {
+//            return ResponseEntity.status(401).body("The Jwt token is not yours!");
+//        }
+//        System.out.println(token+" "+returnUserDetails.getToken());
+
         if (!Objects.equals(returnUserDetails.getId(), userId)) {
             return ResponseEntity.status(401).body("you cannot add other users watchlist!");
         }
@@ -150,6 +165,10 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId, Long userId, ReturnUserDetails returnUserDetails) {
+//        if (!Objects.equals(("Bearer " + returnUserDetails.getToken()), token)) {
+//            return ResponseEntity.status(401).body("The Jwt token is not yours!");
+//        }
+
         if (!Objects.equals(returnUserDetails.getId(), userId)) {
             return ResponseEntity.status(401).body("you cannot remove other users watchlist!");
         }

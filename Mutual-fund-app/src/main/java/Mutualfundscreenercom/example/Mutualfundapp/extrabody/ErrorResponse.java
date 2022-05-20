@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
-public class LoginResponse {
-
-//    private String jwtToken;
-    private ReturnUserDetails returnUserDetails;
+@Data
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ErrorResponse {
+    private String error;
 }

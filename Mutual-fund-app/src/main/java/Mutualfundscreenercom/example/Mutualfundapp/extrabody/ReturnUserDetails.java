@@ -1,6 +1,7 @@
 package Mutualfundscreenercom.example.Mutualfundapp.extrabody;
 
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
+import Mutualfundscreenercom.example.Mutualfundapp.entities.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,7 @@ public class ReturnUserDetails {
     private String userName;
     private String email;
     private Boolean isActive;
+    private String token;
     private List<MutualFund> wishList;
+    private List<Roles> roles;
 }

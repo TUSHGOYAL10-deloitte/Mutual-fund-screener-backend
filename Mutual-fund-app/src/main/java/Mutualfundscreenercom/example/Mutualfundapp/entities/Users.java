@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +45,8 @@ public class Users {
             inverseJoinColumns = {
                     @JoinColumn(name = "MUTUAL_FUND_ID") })
     private Set<MutualFund> mutualFundWatchList;
+
+    private String createdAt;
 
     @JsonIgnore
     private Boolean emailConfirmed=false;

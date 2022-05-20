@@ -4,15 +4,13 @@ import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.service.MutualFundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/mutual-fund")
+@CrossOrigin(origins = "https://mutual-fund-screener-frontend-urtjok3rza-wl.a.run.app/", maxAge = 36000)
 public class MutualFundController {
     @Autowired
     MutualFundService mutualFundService;
