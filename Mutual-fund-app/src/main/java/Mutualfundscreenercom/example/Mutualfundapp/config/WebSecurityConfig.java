@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/mutual-fund/*",
             "/mutual-fund/user/*/add-mutualFund-to-watchlist/*",
             "/mutual-fund/remove-mutual-fund/*/from-user/*",
+            "/mutual-fund/**",
 
             // allow swagger
             "/v2/api-docs",

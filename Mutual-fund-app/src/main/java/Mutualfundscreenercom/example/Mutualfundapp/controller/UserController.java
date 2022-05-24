@@ -6,6 +6,7 @@ import Mutualfundscreenercom.example.Mutualfundapp.extrabody.*;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import Mutualfundscreenercom.example.Mutualfundapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -79,20 +81,42 @@ public class UserController {
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/user/{userId}/add-mutualFund-to-watchlist/{mutualFundId}", method = RequestMethod.POST)
-    public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId) {
+    public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId,@RequestHeader("Authorization") String token) {
         System.out.println(mutualFundId.intValue() + " " + userId);
-        return userService.addMutualFundToWatchList(userId, mutualFundId, returnUserDetails);
+        return userService.addMutualFundToWatchList(userId, mutualFundId, token);
     }
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/remove-mutual-fund/{userId}/from-user/{mutualFundId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId) {
-        return userService.removeMutualFunFromUser(mutualFundId, userId, returnUserDetails);
+    public ResponseEntity<?> removeMutualFundFromUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId,@RequestHeader("Authorization") String token) {
+        return userService.removeMutualFunFromUser(mutualFundId, userId, token);
     }
 
-//    @RequestMapping(value = "/password-reset/{userId}", method = RequestMethod.PUT)
-//    public ResponseEntity<?> resetPasswordController(@PathVariable Long userId, @RequestBody PasswordReset passwordReset) {
-//        return userService.resetPasswordService(userId, passwordReset);
-//    }
+
+    @RequestMapping(value = "/update-password/{userName}",method=RequestMethod.PUT)
+    public ResponseEntity<?> updatePassword(@PathVariable("userName") String userName,@RequestBody NewPassword newPassword){
+        return userService.saveNewPassword(userName,newPassword.getNewPassword());
+    }
+    //post mehtod we will be using
+    @RequestMapping(value = "/forgot-password/{userName}", method = RequestMethod.POST)
+    public ResponseEntity<?> resetPasswordController(@PathVariable String userName, @RequestBody ResetPassword resetPassword) throws MessagingException {
+        return userService.resetPasswordService(resetPassword);
+    }
+
+    //post method to send an email confirmation link
+    @RequestMapping(value="/confirm-email/{userName}",method = RequestMethod.POST)
+    public ResponseEntity<?> sendEmailConfirmation(@PathVariable String userName) throws MessagingException {
+        return userService.sendConfirmEmailService(userName);
+    }
+
+    //put method we are using
+    @RequestMapping(value ="/set-confirm-email/{userId}",method = RequestMethod.PUT)
+    public ResponseEntity<?> setConfirmationEmail(@PathVariable("userId") Long userId){
+        return userService.setEmailConfirmSerivce(userId);
+    }
+
+
+
+
 
 }

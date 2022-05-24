@@ -3,12 +3,10 @@ package Mutualfundscreenercom.example.Mutualfundapp.service;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Roles;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.Users;
-import Mutualfundscreenercom.example.Mutualfundapp.extrabody.ErrorResponse;
-import Mutualfundscreenercom.example.Mutualfundapp.extrabody.ReturnUserDetails;
-import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UnSuccessfull;
-import Mutualfundscreenercom.example.Mutualfundapp.extrabody.UserExtraBody;
+import Mutualfundscreenercom.example.Mutualfundapp.extrabody.*;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.MutualFundRepository;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 @Service
@@ -39,6 +38,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private ErrorResponse errorResponse;
 
+    @Autowired
+    private LoggedInUserDeatils loggedInUserDeatils;
+
+    @Autowired
+    private EmailService emailService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByUsername(username);
@@ -139,13 +143,14 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body("Deleted the user!");
     }
 
-    public ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId, ReturnUserDetails returnUserDetails) {
-//        if(!Objects.equals(("Bearer " + returnUserDetails.getToken()), token)) {
-//            return ResponseEntity.status(401).body("The Jwt token is not yours!");
-//        }
-//        System.out.println(token+" "+returnUserDetails.getToken());
+    public ResponseEntity<?> addMutualFundToWatchList(Long userId, Long mutualFundId, String token) {
+        System.out.println(loggedInUserDeatils+" "+token);
+        if(!Objects.equals(("Bearer" + loggedInUserDeatils.getToken()), token)) {
+            return ResponseEntity.status(401).body("The Jwt token is not yours!");
+        }
 
-        if (!Objects.equals(returnUserDetails.getId(), userId)) {
+
+        if (!Objects.equals(loggedInUserDeatils.getUserId(), userId)) {
             return ResponseEntity.status(401).body("you cannot add other users watchlist!");
         }
 
@@ -164,12 +169,12 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body(userRepository.getById(userId));
     }
 
-    public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId, Long userId, ReturnUserDetails returnUserDetails) {
-//        if (!Objects.equals(("Bearer " + returnUserDetails.getToken()), token)) {
-//            return ResponseEntity.status(401).body("The Jwt token is not yours!");
-//        }
+    public ResponseEntity<?> removeMutualFunFromUser(Long mutualFundId, Long userId, String token) {
+        if (!Objects.equals(("Bearer" + loggedInUserDeatils.getToken()), token)) {
+            return ResponseEntity.status(401).body("The Jwt token is not yours!");
+        }
 
-        if (!Objects.equals(returnUserDetails.getId(), userId)) {
+        if (!Objects.equals(loggedInUserDeatils.getUserId(), userId)) {
             return ResponseEntity.status(401).body("you cannot remove other users watchlist!");
         }
 
@@ -187,23 +192,55 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body(userRepository.getById(userId));
     }
 
-//    public ResponseEntity<?> resetPasswordService(Long userId, PasswordReset passwordReset) {
-//
-//        if(!userRepository.existsById(userId)) {
-//            return ResponseEntity.status(404).body("User does not exist");
-//        }
-//        Users users = userRepository.getById(userId);
-//        if(!users.getIs_active()) {
-//            return ResponseEntity.status(404).body("User does not exist");
-//        }
-//        if(!Objects.equals(users.getUsername(), passwordReset.getUserName())) {
-//            return ResponseEntity.status(401).body("username does not match. provide correct username to reset password");
-//        }
-//        if(!Objects.equals(users.getEmail(), passwordReset.getEmail())) {
-//            return ResponseEntity.status(401).body("email does not match. provide correct username to reset password");
-//        }
-//        users.setPassword(bcryptEncoder.encode(passwordReset.getPassword()));
-//        userRepository.save(users);
-//        return ResponseEntity.ok().body(userRepository.getById(userId));
-//    }
+    public ResponseEntity<?> resetPasswordService(ResetPassword resetPassword) throws MessagingException {
+        if(!userRepository.existsByUsername(resetPassword.getUserName())){
+            return ResponseEntity.status(404).body("No such user is present try signing up!");
+        }
+        Users users=userRepository.findByUsername(resetPassword.getUserName());
+        if(!Objects.equals(users.getEmail(),resetPassword.getUserEmail())){
+            return ResponseEntity.status(404).body("No email id is present");
+        }
+
+        final String url="http://localhost:8080/mutual-find/update-password/"+users.getUsername();
+        final String message="This is from mutual fund screener\n"+
+                "click the link below to confirm your address\n"+url;
+        final String subject="This is to confirm email address";
+
+        emailService.sendEmailService(users.getId(), message, true, subject);
+        return ResponseEntity.ok().body("email has been sent!");
+    }
+
+
+    public ResponseEntity<?> sendConfirmEmailService(String username) throws MessagingException {
+        if(!userRepository.existsByUsername(username)){
+            return ResponseEntity.status(404).body("No such user is present try signing up!");
+        }
+        Users users=userRepository.findByUsername(username);
+        if(users.getEmail()==null){
+            return ResponseEntity.status(404).body("No such email address is exist!");
+        }
+        final String url="http://localhost:8080/mutual-find/set-confirm-email/"+users.getId();
+        final String message="This is from mutual fund screener\n"+
+                "click the link below to confirm your address\n"+url;
+        final String subject="This is to confirm email address";
+
+        emailService.sendEmailService(users.getId(), message, true, subject);
+        return ResponseEntity.ok().body("email has been sent!");
+    }
+
+    public ResponseEntity<?> setEmailConfirmSerivce(Long userId){
+        Users user=userRepository.getById(userId);
+        user.setEmailConfirmed(true);
+        userRepository.save(user);
+        return ResponseEntity.ok().body("email confirmed");
+    }
+
+    public ResponseEntity<?> saveNewPassword(String userName,String newPassword){
+        Users users=userRepository.findByUsername(userName);
+        users.setPassword(bcryptEncoder.encode(newPassword));
+        userRepository.save(users);
+        return ResponseEntity.ok().body("password has been updated!");
+    }
+
+
 }

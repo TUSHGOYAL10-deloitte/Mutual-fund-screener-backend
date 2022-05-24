@@ -1,6 +1,9 @@
 package Mutualfundscreenercom.example.Mutualfundapp.config;
 
+import Mutualfundscreenercom.example.Mutualfundapp.extrabody.LoggedInUserDeatils;
+import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +30,11 @@ public class TokenProvider implements Serializable {
 
     @Value("${jwt.authorities.key}")
     public String AUTHORITIES_KEY;
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private LoggedInUserDeatils loggedInUserDeatils;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -69,6 +77,17 @@ public class TokenProvider implements Serializable {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
+        final boolean existUser=userRepository.existsByUsername(username);
+
+        if(!existUser){
+            return false;
+        }
+        final Boolean is_Active=userRepository.findByUsername(username).getIs_active();
+        if(!is_Active){
+            return false;
+        }
+        loggedInUserDeatils.setUserId(userRepository.findByUsername(username).getId());
+        loggedInUserDeatils.setToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
