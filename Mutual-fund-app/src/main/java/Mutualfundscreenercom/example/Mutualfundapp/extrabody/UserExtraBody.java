@@ -13,7 +13,6 @@ public class UserExtraBody {
     private String username;
     private String password;
     private String email;
-    private String verification_code;
     private String createdAt;
 
     public Users getUserFromExtraBody(){

@@ -3,6 +3,8 @@ package Mutualfundscreenercom.example.Mutualfundapp.service;
 import Mutualfundscreenercom.example.Mutualfundapp.entities.MutualFund;
 import Mutualfundscreenercom.example.Mutualfundapp.repository.MutualFundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class MutualFundService {
     @Autowired
     MutualFundRepository mutualFundRepository;
 
+
+    @CacheEvict(value = "All-Mutual-fund-cache",key="'AllMutualFundCache'",beforeInvocation = true)
+    @Cacheable(value="All-Mutual-fund-cache",key="'AllMutualFundCache'")
     public List<MutualFund> getAllMutualFundsService() {
         List<MutualFund> mutualFunds = new ArrayList<>();
         mutualFundRepository.findAll().iterator().forEachRemaining(mutualFunds::add);
@@ -31,6 +36,8 @@ public class MutualFundService {
         return result;
     }
 
+    @CacheEvict(value = "Mutual-fund-cache",key="'MutualFundCache'+#mutualFundId",beforeInvocation = true)
+    @Cacheable(value="Mutual-fund-cache",key="'MutualFundCache'+#mutualFundId")
     public ResponseEntity<?> getMutualFundService(Long mutualFundId) {
         if (mutualFundId == null) {
             return ResponseEntity.status(404).body("provide an ID");

@@ -13,4 +13,5 @@ public class ResetPassword {
 
     private String userName;
     private String userEmail;
+    private  String token;
 }

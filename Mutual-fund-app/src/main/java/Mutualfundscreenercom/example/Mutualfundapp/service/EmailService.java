@@ -23,13 +23,13 @@ public class EmailService {
     private JavaMailSender javaMailSender;
 
 
-    public void sendEmailService(Long userId,String message,Boolean confirm,String subject) throws MessagingException {
+    public void sendEmailService(String userName,String message,Boolean confirm,String subject) throws MessagingException {
 
-        if(!userRepository.existsById(userId)){
+        if(!userRepository.existsByUsername(userName)){
             ResponseEntity.status(404).body("no user found! try signing up with the new user");
             return;
         }
-        Users user = userRepository.findById(userId).get();
+        Users user = userRepository.findByUsername(userName);
         if(!user.getIs_active()){
             ResponseEntity.status(404).body("no user found! try signing up with the new user");
             return;

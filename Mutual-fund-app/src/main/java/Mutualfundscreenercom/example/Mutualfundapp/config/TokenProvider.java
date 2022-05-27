@@ -83,6 +83,9 @@ public class TokenProvider implements Serializable {
             return false;
         }
         final Boolean is_Active=userRepository.findByUsername(username).getIs_active();
+        if(!userRepository.findByUsername(username).getEmailConfirmed()){
+            return false;
+        }
         if(!is_Active){
             return false;
         }

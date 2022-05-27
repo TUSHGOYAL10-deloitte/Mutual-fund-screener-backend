@@ -54,4 +54,7 @@ public class Users {
 
     @JsonIgnore
     private Boolean is_active=true;
+
+    @JsonIgnore
+    private String resetPasswordToken;
 }

@@ -8,6 +8,9 @@ import Mutualfundscreenercom.example.Mutualfundapp.repository.MutualFundReposito
 import Mutualfundscreenercom.example.Mutualfundapp.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,7 +46,10 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+
+
     @Override
+    @Cacheable(value="users-cache",key="'UserCache'+#username")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByUsername(username);
         if (user == null) {
@@ -74,6 +80,8 @@ public class UserService implements UserDetailsService {
     }
 
     //get all the users altogether on admin dashboard
+    @CacheEvict(value = "Get-all-users",key="'AllUsersCache'",beforeInvocation = true)
+    @Cacheable(value="Get-all-users",key="'AllUsersCache'")
     public List<Users> findAll() {
         List<Users> list = new ArrayList<>();
         userRepository.findAll().iterator().forEachRemaining(list::add);
@@ -88,7 +96,7 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().body(user);
     }
 
-    public ResponseEntity<?> saveUserService(UserExtraBody user) {
+    public ResponseEntity<?> saveUserService(UserExtraBody user) throws MessagingException {
         if (user.getUsername() == null || user.getUsername().length() <= 0) {
             return ResponseEntity.status(401).body("username is empty!");
         }
@@ -115,7 +123,9 @@ public class UserService implements UserDetailsService {
         Set<Roles> roleSet = new HashSet<>();
         roleSet.add(role);
         nUser.setRoles(roleSet);
-        return ResponseEntity.ok().body(userRepository.save(nUser));
+        userRepository.save(nUser);
+        sendConfirmEmailService(nUser.getUsername());
+        return ResponseEntity.ok().body("Email has been sent");
     }
 
     public ResponseEntity<?> verifyEmailService(UserExtraBody user) {
@@ -197,17 +207,27 @@ public class UserService implements UserDetailsService {
             return ResponseEntity.status(404).body("No such user is present try signing up!");
         }
         Users users=userRepository.findByUsername(resetPassword.getUserName());
+        users.setResetPasswordToken(resetPassword.getToken());
+        userRepository.save(users);
         if(!Objects.equals(users.getEmail(),resetPassword.getUserEmail())){
             return ResponseEntity.status(404).body("No email id is present");
         }
 
-        final String url="http://localhost:8080/mutual-find/update-password/"+users.getUsername();
+        final String url="http://localhost:8080/mutual-find/update-password/"+users.getResetPasswordToken();
         final String message="This is from mutual fund screener\n"+
                 "click the link below to confirm your address\n"+url;
         final String subject="This is to confirm email address";
 
-        emailService.sendEmailService(users.getId(), message, true, subject);
+        emailService.sendEmailService(users.getUsername(), message, true, subject);
         return ResponseEntity.ok().body("email has been sent!");
+    }
+    public ResponseEntity<?> saveNewPassword(String token,String newPassword){
+        Users users=userRepository.findByResetPasswordToken(token);
+        users.setPassword(bcryptEncoder.encode(newPassword));
+        users.setResetPasswordToken(null);
+        userRepository.save(users);
+        System.out.println(newPassword);
+        return ResponseEntity.ok().body("password has been updated!");
     }
 
 
@@ -219,28 +239,23 @@ public class UserService implements UserDetailsService {
         if(users.getEmail()==null){
             return ResponseEntity.status(404).body("No such email address is exist!");
         }
-        final String url="http://localhost:8080/mutual-find/set-confirm-email/"+users.getId();
+        final String url="http://localhost:8080/mutual-find/set-confirm-email/"+users.getUsername();
         final String message="This is from mutual fund screener\n"+
                 "click the link below to confirm your address\n"+url;
         final String subject="This is to confirm email address";
 
-        emailService.sendEmailService(users.getId(), message, true, subject);
+        emailService.sendEmailService(users.getUsername(), message, true, subject);
         return ResponseEntity.ok().body("email has been sent!");
     }
 
-    public ResponseEntity<?> setEmailConfirmSerivce(Long userId){
-        Users user=userRepository.getById(userId);
+    public ResponseEntity<?> setEmailConfirmSerivce(String userName){
+        Users user=userRepository.findByUsername(userName);
         user.setEmailConfirmed(true);
         userRepository.save(user);
         return ResponseEntity.ok().body("email confirmed");
     }
 
-    public ResponseEntity<?> saveNewPassword(String userName,String newPassword){
-        Users users=userRepository.findByUsername(userName);
-        users.setPassword(bcryptEncoder.encode(newPassword));
-        userRepository.save(users);
-        return ResponseEntity.ok().body("password has been updated!");
-    }
+
 
 
 }

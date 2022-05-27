@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUserController(@RequestBody UserExtraBody user) {
+    public ResponseEntity<?> saveUserController(@RequestBody UserExtraBody user) throws MessagingException {
         return userService.saveUserService(user);
     }
 
@@ -79,7 +79,7 @@ public class UserController {
         return userService.verifyEmailService(user);
     }
 
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/user/{userId}/add-mutualFund-to-watchlist/{mutualFundId}", method = RequestMethod.POST)
     public ResponseEntity<?> addMutualFundToUserWishList(@PathVariable("mutualFundId") Long mutualFundId, @PathVariable("userId") Long userId,@RequestHeader("Authorization") String token) {
         System.out.println(mutualFundId.intValue() + " " + userId);
@@ -93,26 +93,20 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/update-password/{userName}",method=RequestMethod.PUT)
-    public ResponseEntity<?> updatePassword(@PathVariable("userName") String userName,@RequestBody NewPassword newPassword){
-        return userService.saveNewPassword(userName,newPassword.getNewPassword());
+    @RequestMapping(value = "/update-password/{token}",method=RequestMethod.PUT)
+    public ResponseEntity<?> updatePassword(@PathVariable("token") String token,@RequestBody NewPassword newPassword){
+        return userService.saveNewPassword(token,newPassword.getNewPassword());
     }
-    //post mehtod we will be using
-    @RequestMapping(value = "/forgot-password/{userName}", method = RequestMethod.POST)
-    public ResponseEntity<?> resetPasswordController(@PathVariable String userName, @RequestBody ResetPassword resetPassword) throws MessagingException {
+
+    @RequestMapping(value = "/forgot-password/", method = RequestMethod.POST)
+    public ResponseEntity<?> resetPasswordController(@RequestBody ResetPassword resetPassword) throws MessagingException {
         return userService.resetPasswordService(resetPassword);
     }
 
-    //post method to send an email confirmation link
-    @RequestMapping(value="/confirm-email/{userName}",method = RequestMethod.POST)
-    public ResponseEntity<?> sendEmailConfirmation(@PathVariable String userName) throws MessagingException {
-        return userService.sendConfirmEmailService(userName);
-    }
-
     //put method we are using
-    @RequestMapping(value ="/set-confirm-email/{userId}",method = RequestMethod.PUT)
-    public ResponseEntity<?> setConfirmationEmail(@PathVariable("userId") Long userId){
-        return userService.setEmailConfirmSerivce(userId);
+    @RequestMapping(value ="/set-confirm-email/{userName}",method = RequestMethod.PUT)
+    public ResponseEntity<?> setConfirmationEmail(@PathVariable("userName") String userName){
+        return userService.setEmailConfirmSerivce(userName);
     }
 
 

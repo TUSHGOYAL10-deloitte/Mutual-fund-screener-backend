@@ -22,7 +22,6 @@ public class ReturnUserDetails {
     private String email;
     private Boolean isActive;
     private String token;
-    private Boolean emailConfirmed;
     private List<MutualFund> wishList;
     private List<Roles> roles;
 }
