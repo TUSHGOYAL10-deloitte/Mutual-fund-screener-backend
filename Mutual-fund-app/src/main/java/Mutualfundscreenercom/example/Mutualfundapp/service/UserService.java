@@ -116,6 +116,13 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByEmail(user.getEmail())) {
             return ResponseEntity.status(401).body("User already exists try logging in!");
         }
+        if(userRepository.existsByUsername(user.getUsername())) {
+            Users newUser = userRepository.findByUsername(user.getUsername());
+            newUser.setIs_active(true);
+            newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+            sendConfirmEmailService(user.getUsername());
+            return ResponseEntity.ok().body(userRepository.save(newUser));
+        }
 
         Users nUser = user.getUserFromExtraBody();
         nUser.setPassword(bcryptEncoder.encode(user.getPassword()));
